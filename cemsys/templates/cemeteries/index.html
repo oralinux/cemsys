@@ -1,0 +1,233 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+                <div class="page-header">
+                    <h1 class="sub-header">墓区设置
+                    </h1>
+                    <hr>
+                    <div id="area_toolbar" class="btn-group">
+                        <button id="area_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#newArea">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        </button>
+                        <button id="area_edit" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                        </button>
+                        <button id="area_delete" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                        </button>
+                    </div>
+                    <table id="area" style="table-layout:fixed;"></table>
+                </div>
+                <!--墓区设置-->
+                <form action="{% url 'cemeteries:new_area' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="newArea" tabindex="-1" role="dialog" aria-labelledby="ModalMaterial" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title" id="modalPw">
+                                        创建墓区
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓区编号:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="area_code" placeholder="MQ0001">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓区名称:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="area_name" placeholder="茶花园">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">备注:</label>
+                                        <div class="input-group col-sm-9">
+                                            <textarea class="form-control" name="remark" placeholder="描述信息"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">创建人:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="operator" placeholder="admin" value="{{ user }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">新增</button>
+                                    <button type="reset" class="btn btn-cancel">重置</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="{% url 'cemeteries:update_area' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="updateArea" tabindex="-1" role="dialog" aria-labelledby="ModalArea" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title" id="modalArea">
+                                        墓区信息更新
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="areaID" name="area_id" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓区编号:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="area_code" name="area_code" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓区名称:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="area_name" name="area_name" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">备注:</label>
+                                        <div class="input-group col-sm-9">
+                                            <textarea class="form-control" id="remark" name="remark" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">修改人:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="modify_user" name="modify_user" value="{{ user }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">更新</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="{% url 'cemeteries:delete_area' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="delArea" tabindex="-1" role="dialog" aria-labelledby="ModalArea" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">
+                                        墓区信息删除
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="area_id" name="area_id" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">确认是否删除所选记录？</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">是</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--墓区设置完成-->
+                <script>
+                    $(function(){
+                        $('#area').bootstrapTable({
+                            url: '{% url 'cemeteries:list_area' %}',
+                            method: 'post',
+                            toolbar: '#toolbar',
+                            showColumns: true,
+                            showToggle: true,
+                            striped: true,
+                            search: true,
+                            sortOrder: 'desc',
+                            pagination: true,
+                            showExport: true,
+                            uniqueId: 'id',
+                            columns:[{
+                                checkbox: true
+                            },{
+                                field: 'id',
+                                title: '墓区ID',
+                                visible: false
+                            },{
+                                field: 'area_code',
+                                title: '墓区编号'
+                            },{
+                                field: 'area_name',
+                                title: '墓区名称'
+                            },{
+                                field: 'remark',
+                                title: '备注',
+                                cellStyle: function cellStyle(value, row, index){
+                                    return {
+                                        css: {
+                                            "overflow": "hidden",
+                                            "text-overflow": "ellipsis",
+                                            "white-space": "nowrap"
+                                        }
+                                    }
+                                }
+                            },{
+                                field: 'create_date',
+                                title: '创建日期'
+                            },{
+                                field: 'operator',
+                                title: '创建人'
+                            },{
+                                field: 'modify_user',
+                                title: '最后修改人'
+                            },{
+                                field: 'modify_date',
+                                title: '最后修改日期'
+                            },]
+                        }),
+                        $('.form_date').datetimepicker({
+                            weekStart: 1,
+                            todayBtn:  1,
+                            autoclose: 1,
+                            todayHighlight: 1,
+                            startView: 2,
+                            minView: 2,
+                            forceParse: 0
+                        }),
+                        $('#area_edit').click(function(){
+                            var record = $('#area').bootstrapTable('getSelections');
+                            if(record.length <= 0){
+                                alert("请选中一行")
+                            } else {
+                                var id = record[0].id;
+                                var area_code = record[0].area_code;
+                                var area_name = record[0].area_name;
+                                var remark = record[0].remark;
+                                var modify_user = record[0].modify_user;
+                                $("#areaID").val(id);
+                                $("#area_code").val(area_code);
+                                $('#area_name').val(area_name);
+                                $('#remark').val(remark);
+                                $('#modify_user').val(modify_user);
+                                $("#updateArea").modal();
+                            }
+                        }),
+                        $('#area_delete').click(function(){
+                            var record = $("#area").bootstrapTable('getSelections');
+                            if(record.length <= 0){
+                                alert("请选中一行")
+                            } else {
+                                var id = record[0].id;
+                                $("#area_id").val(id);
+                                $("#delArea").modal();
+                            }
+                        })
+                    })
+                </script>
+{% endblock content %}

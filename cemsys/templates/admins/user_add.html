@@ -1,0 +1,89 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+            <form action="" class="form">
+                <div class="form-group row">
+                    <label for="username" class="col-xs-4 col-sm-2 col-md-2 text-right">用户名：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input class="form-control" id="username" placeholder="用户名">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password1" class="col-xs-4 col-sm-2 col-md-2 text-right">密码：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input type="password" class="form-control" id="password1" placeholder="密码">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password2" class="col-xs-4 col-sm-2 col-md-2 text-right">确认密码：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input type="password" class="form-control" id="password2" placeholder="确认密码">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="sex" class="col-xs-4 col-sm-2 col-md-2 text-right">性别：</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="gender" value="male" data-parsley-multiple="gender"> &nbsp; Male &nbsp;
+                            </label>
+                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="gender" value="female" data-parsley-multiple="gender"> Female
+                            </label>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-xs-4 col-sm-2 col-md-2 text-right">电子邮件：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input type="email" class="form-control" id="email" placeholder="电子邮件@">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="work_unit" class="col-xs-4 col-sm-2 col-md-2 text-right">工作单位：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input class="form-control" id="work_unit">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="phone" class="col-xs-4 col-sm-2 col-md-2 text-right">联系电话：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input class="form-control" id="phone">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="contact" class="col-xs-4 col-sm-2 col-md-2 text-right">工作电话：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input class="form-control" id="contact">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="hire_date" class="col-xs-4 col-sm-2 col-md-2 text-right">入职日期：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input class="form-control" id="hire_date">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="fire_date" class="col-xs-4 col-sm-2 col-md-2 text-right">离职日期：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <input class="form-control" id="fire_date">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="introduce" class="col-xs-4 col-sm-2 col-md-2 text-right">简介：</label>
+                    <div class="col-xs-8 col-md-10">
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                        <button class="btn btn-success" type="commit">新增</button>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <button class="btn btn-error" type="reset">取消</button>
+                    </div>
+                </div>
+
+            </form>
+{% endblock content %}

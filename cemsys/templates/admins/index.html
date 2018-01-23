@@ -1,0 +1,171 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+                <div class="page-header">
+                    <h1 class="sub-header">
+                        系统信息
+                    </h1>
+                    <div class="row placeholders">
+                        <div class="col-xs-6 col-sm-3 placeholder">
+                            <div style="border:1px gray solid; height:200px;" class="img-rounded">
+                                <p>130</p>
+                                <h4>诞辰</h4>
+                                <span class="text-muted">Something else</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 placeholder">
+                            <div style="border:1px gray solid; height:200px;">
+                                <h4>忌日</h4>
+                                <span class="text-muted">忌日</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 placeholder">
+                            <div style="border:1px gray solid; height:200px;">
+                                <h4>安葬</h4>
+                                <span class="text-muted">安葬</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 placeholder">
+                            <div style="border:1px gray solid; height:200px;">
+                                <h4>寄存</h4>
+                                <span class="text-muted">Something else</span>
+                            </div>
+                        </div>
+                    </div>
+			    </div>
+
+                <div class="page-header">
+                    <h2 class="sub-header">动态信息</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th>提醒内容</th>
+                              <th>逝者姓名</th>
+                              <th>逝世日期</th>
+                              <th>委托人</th>
+                              <th>联系方式</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>安葬提醒</td>
+                              <td>Lorem</td>
+                              <td>ipsum</td>
+                              <td>dolor</td>
+                              <td>sit</td>
+                            </tr>
+                            <tr>
+                              <td>寄存提醒</td>
+                              <td>amet</td>
+                              <td>consectetur</td>
+                              <td>adipiscing</td>
+                              <td>elit</td>
+                            </tr>
+                            <tr>
+                              <td>1,003</td>
+                              <td>Integer</td>
+                              <td>nec</td>
+                              <td>odio</td>
+                              <td>Praesent</td>
+                            </tr>
+                            <tr>
+                              <td>1,003</td>
+                              <td>libero</td>
+                              <td>Sed</td>
+                              <td>cursus</td>
+                              <td>ante</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('grave_address'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '墓位统计'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+        var mySale = echarts.init(document.getElementById('sale'));
+        // setting
+       var option1 = {
+    title : {
+        text: '销售统计',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'left',
+        data:['空墓穴','已购墓穴','已安葬墓穴','预定墓穴','年入墓穴']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: false},
+            dataView : {show: false, readOnly: false},
+            magicType : {
+                show: true,
+                type: ['pie', 'funnel'],
+                option: {
+                    funnel: {
+                        x: '25%',
+                        width: '50%',
+                        funnelAlign: 'left',
+                        max: 1548
+                    }
+                }
+            },
+            restore : {show: false},
+            saveAsImage : {show: false}
+        }
+    },
+    calculable : true,
+    series : [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+                {value:335, name:'已安葬墓穴'},
+                {value:310, name:'已购墓穴'},
+                {value:234, name:'年入墓穴'},
+                {value:135, name:'预定墓穴'},
+                {value:1548, name:'空墓穴'}
+            ]
+        }
+    ]
+};
+
+mySale.setOption(option1);
+
+</script>
+
+
+{% endblock content%}

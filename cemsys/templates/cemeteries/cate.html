@@ -1,0 +1,267 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+                <div class="page-header">
+                    <h1 class="sub-header">墓型配置</h1>
+                    <hr>
+                    <div id="cate_toolbar" class="btn-group">
+                        <button id="cate_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#newCate">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        </button>
+                        <button id="cate_edit" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                        </button>
+                        <button id="cate_delete" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                        </button>
+                    </div>
+                    <table id="cate" style="table-layout:fixed;"></table>
+                </div>
+                <!--墓型设置-->
+                <form action="{% url 'cemeteries:new_cate' %}" role="form" class="form-horizontal" method="post" enctype="multipart/form-data">
+                    <div class="modal fade" id="newCate" tabindex="-1" role="dialog" aria-labelledby="ModalCate" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title" id="modalCate">
+                                        新增墓型
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓型编号:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" name="cate_code" placeholder="MT0001">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓型名称:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" name="cate_name" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">单双墓:</label>
+                                        <div class="input-group col-sm-9">
+                                            <select class="form-control" name="cate_type">
+                                                <option value="单">单墓</option>
+                                                <option value="双">双墓</option>
+                                                <option value="多人墓">多人墓</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">长:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" name="length" placeholder="长">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">宽:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" name="wide" placeholder="宽">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">高:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" name="deep" placeholder="高">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">修改人:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" name="modify_user" value="{{ user }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">新增</button>
+                                    <button type="reset" class="btn btn-cancel">重置</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="{% url 'cemeteries:update_cate' %}" role="form" class="form-horizontal" method="post" enctype="multipart/form-data">
+                    <div class="modal fade" id="updateCate" tabindex="-1" role="dialog" aria-labelledby="ModalCate" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title" id="modifyCate">
+                                        墓型更新
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="cate_id" name="cate_id" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓型编号:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" id="cate_code" name="cate_code" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">墓型名称:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" id="cate_name" name="cate_name" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">单双墓:</label>
+                                        <div class="input-group col-sm-9">
+                                            <select class="form-control" id="cate_type" name="cate_type" data-value="">
+                                                <option value="单">单墓</option>
+                                                <option value="双">双墓</option>
+                                                <option value="多人墓">多人墓</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">长:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" id="length" name="length" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">宽:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" id="wide" name="wide" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">高:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" id="deep" name="deep" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">修改人:</label>
+                                        <div class="input-group col-sm-9">
+                                            <input class="form-control" id="modify_user" name="modify_user" value="{{ user }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">更新</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="{% url 'cemeteries:delete_cate' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="delCate" tabindex="-1" role="dialog" aria-labelledby="ModalCate" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">
+                                        墓型删除
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="cateID" name="cate_id" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">确认是否删除所选记录？</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">是</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--墓型设置完成-->
+                <script>
+                    $(function(){
+                        $('#cate').bootstrapTable({
+                            url: '{% url 'cemeteries:list_cate' %}',
+                            method: 'post',
+                            toolbar: '#cate_toolbar',
+                            showColumns: true,
+                            showToggle: true,
+                            striped: true,
+                            search: true,
+                            sortOrder: 'desc',
+                            pagination: true,
+                            showExport: true,
+                            uniqueId: 'id',
+                            columns:[{
+                                checkbox: true
+                            },{
+                                field: 'id',
+                                title: '分类ID',
+                                visible: false
+                            },{
+                                field: 'cate_code',
+                                title: '墓型编号'
+                            },{
+                                field: 'cate_name',
+                                title: '墓型名称'
+                            },{
+                                field: 'cate_type',
+                                title: '单双墓'
+                            },{
+                                field: 'length',
+                                title: '长(cm)'
+                            },{
+                                field: 'width',
+                                title: '宽(cm)'
+                            },{
+                                field: 'height',
+                                title: '高(cm)'
+                            },{
+                                field: 'modify_date',
+                                title: '更新时间'
+                            },{
+                                field: 'modify_user',
+                                title: '修改人'
+                            },]
+                        }),
+                        $('#cate_edit').click(function(){
+                            var record = $('#cate').bootstrapTable('getSelections');
+                            if(record.length <= 0){
+                                alert("请选中一行")
+                            } else {
+                                var id = record[0].id;
+                                var cate_code = record[0].cate_code;
+                                var cate_name = record[0].cate_name;
+                                var cate_type = record[0].cate_type;
+                                var length = record[0].length;
+                                var wide = record[0].width;
+                                var deep = record[0].height;
+                                var modify_user = record[0].modify_user;
+                                $("#cate_id").val(id);
+                                $("#cate_code").val(cate_code);
+                                $("#cate_name").val(cate_name);
+                                $("#cate_type").val(cate_type);
+                                $("#length").val(length);
+                                $("#wide").val(wide);
+                                $("#deep").val(deep);
+                                $("#modify_user").val(modify_user);
+                                $("#updateCate").modal();
+                            }
+                        }),
+                        $('#cate_delete').click(function(){
+                            var record = $("#cate").bootstrapTable('getSelections');
+                            if(record.length <= 0){
+                                alert("请选中一行")
+                            } else {
+                                var id = record[0].id;
+                                $("#cateID").val(id);
+                                $("#delCate").modal();
+                            }
+                        })
+                    })
+                </script>
+{% endblock content %}

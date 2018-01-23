@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<title>管理控制台</title>
+
+     <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+
+    <!-- Bootstrap-table CSS -->
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-table.min.css' %}">
+
+    <!-- Bootstrap-datetime-picker CSS -->
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-datetimepicker.min.css' %}">
+
+    <!-- Bootstrap-fileinput CSS -->
+	<link rel="stylesheet" href="{% static 'bootstrap/css/fileinput.min.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <!-- NProgress -->
+    <link rel="stylesheet" href="{% static 'css/nprogress.css' %}">
+
+    <!-- Custom Theme Style -->
+    <link rel="stylesheet" href="{% static 'css/custom.min.css' %}">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap js -->
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+	<!-- Bootstrap-Table js -->
+	<script src="{% static 'bootstrap/js/bootstrap-table.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap-table-export.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap-table-zh-CN.js' %}"></script>
+
+    <!-- Bootstrap-datatime js -->
+    <script src="{% static 'bootstrap/js/bootstrap-datetimepicker.min.js' %}"></script>
+
+    <!-- Bootstrap-datatime js -->
+    <script src="{% static 'bootstrap/js/fileinput.min.js' %}"></script>
+
+    <!-- echarts js -->
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+
+    <!-- FastClick -->
+    <script src="{% static 'js/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script src="{% static 'js/nprogress.js' %}"></script>
+
+</head>
+<body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="{% url 'admins:index' %}" class="site_title"><span>公墓管理系统</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_info">
+                  {% if user.is_authenticated %}
+                    <h2>欢迎,{{ user.username }}</h2>
+                  {% endif %}
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a href="{% url 'admins:index' %}"><i class="glyphicon glyphicon-home"></i>首页</a></li>
+                  <li><a><i class="glyphicon glyphicon-user"></i>用户中心<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'admins:user_manage' %}">用户管理</a></li>
+                      <li><a href="{% url 'admins:user_list' %}">角色管理</a></li>
+                      <li><a href="#">系统记录</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="glyphicon glyphicon-edit"></i>合同维护<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">合同维护</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="glyphicon glyphicon-tasks"></i>材料管理<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'materials:materials' %}">材料采购</a></li>
+                      <li><a href="{% url 'materials:test_material' %}">材料入库</a></li>
+                      <li><a href="#">材料出库</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="glyphicon glyphicon-cloud"></i>大数据云平台<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">数据查询</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="glyphicon glyphicon-stats"></i>统计分析<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'admins:statistics'%}">销售统计</a></li>
+                      <li><a href="#">护墓费统计</a></li>
+                      <li><a href="#">墓穴统计</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="glyphicon glyphicon-th"></i>墓区管理<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{% url 'cemeteries:cemeteries' %}">墓区设置</a></li>
+                        <li><a href="{% url 'cemeteries:graves' %}">墓穴状态设置</a></li>
+                        <li><a href="{% url 'cemeteries:cates' %}">墓型设置</a></li>
+                        <li><a href="{% url 'cemeteries:tombs' %}">墓位管理</a></li>
+                        <li><a href="#">墓区总览</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="glyphicon glyphicon-thumbs-up"></i>服务项目<span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">收费管理</a></li>
+                      <li><a href="#">墓碑刻制</a></li>
+                      <li><a href="#">墓碑刻制</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="设置">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="全屏">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="锁定">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="退出" href="{% url 'users:logout' %}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+          <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="glyphicon glyphicon-menu-hamburger"></i></a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="container-fluid">
+                    {% block content%}{% endblock content %}
+            </div>
+        </div>
+          <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            重庆仁潇科技有限公司 <a href="https://www.rxscitech.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+    <script src="{% static 'js/jquery.admin.js' %}"></script>
+
+</body>
+</html>

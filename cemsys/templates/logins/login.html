@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用户登录</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+	<div class="container">
+		<form action="{% url 'users:login_view' %}" class="form-sigin" role="form" method="post">
+            {% csrf_token %}
+			<h2 class="form-sigin-heading">用户登录</h2>
+			<label for="username" class="sr-only">用户名:</label>
+			<input type="text" name="username" id="username" class="form-control" placeholder="输入用户名" required autofocus>
+			<label for="password" class="sr-only">密码:</label>
+			<input type="password" name="password" id="password" class="form-control" placeholder="输入密码" required>
+			<div class="checkbox">
+				<label><input type="checkbox" class="center-block">记住密码</label>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block">登录</button>
+		</form>
+	</div>
+</body>
+</html>

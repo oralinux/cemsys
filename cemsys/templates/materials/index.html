@@ -1,0 +1,271 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+                <div class="page-header">
+                    <h1 class="sub-header">材料采购信息</h1>
+                    <hr>
+                    <div id="toolbar" class="btn-group">
+                        <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#newMaterial">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        </button>
+                        <button id="btn_edit" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                        </button>
+                        <button id="btn_delete" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                        </button>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <form action="{% url 'materials:new_material' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="newMaterial" tabindex="-1" role="dialog" aria-labelledby="ModalMaterial" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title" id="modalPw">
+                                        材料采购
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">材料编号:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="mater_code" placeholder="CL0001">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">材料名称:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="mater_name" placeholder="香炉">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">材料规格:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="mater_model" placeholder="个">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">进货价格:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="receipt_price" placeholder="100.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">进货数量:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="receipt_count" placeholder="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label" for="dpt_input">进货日期:</lable>
+                                        <div class="input-group date form_date col-sm-9" data-date-format="yyyy-mm-dd" data-link-field="dtp_input"
+                                         data-link-format="yyyy-mm-dd">
+                                            <input class="form-control" name="receipt_date" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input" value=""/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">进货人:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" name="operator" value="{{ user }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">新增</button>
+                                    <button type="reset" class="btn btn-cancel">重置</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="{% url 'materials:update_material' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="updateMaterial" tabindex="-1" role="dialog" aria-labelledby="ModalMaterial" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title" id="modalMater">
+                                        材料信息更新
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="materID" name="mater_id" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">材料编号:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="code" name="mater_code" value="" placeholder="CL0001">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">材料名称:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="name" name="mater_name" value="" placeholder="香炉">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">材料规格:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="model" name="mater_model" value="" placeholder="个">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">进货价格:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="price" name="receipt_price" value="" placeholder="100.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">进货数量:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="count" name="receipt_count" value="" placeholder="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label" for="dpt_input2">进货日期:</lable>
+                                        <div class="input-group date form_date col-sm-9" data-date-format="yyyy-mm-dd" data-link-field="dtp_input"
+                                         data-link-format="yyyy-mm-dd">
+                                            <input class="form-control" name="receipt_date" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value=""/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <lable class="col-sm-3 control-label">进货人:</lable>
+                                        <div class="input-group col-sm-9">
+                                            <input type="text" class="form-control" id="opertaor" name="operator" value="{{ user }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">更新</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="{% url 'materials:del_material' %}" role="form" class="form-horizontal" method="post">
+                    <div class="modal fade" id="delMaterial" tabindex="-1" role="dialog" aria-labelledby="ModalMaterial" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">
+                                        材料信息删除
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="mater_id" name="mater_id" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <lable class="control-label">确认是否删除所选记录？</lable>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">是</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <script>
+                    $(function(){
+                        $('#table').bootstrapTable({
+                            url: '{% url 'materials:list_material' %}',
+                            method: 'post',
+                            toolbar: '#toolbar',
+                            showColumns: true,
+                            showToggle: true,
+                            striped: true,
+                            search: true,
+                            sortOrder: 'desc',
+                            pagination: true,
+                            showExport: true,
+                            uniqueId: 'id',
+                            columns:[{
+                                checkbox: true
+                            },{
+                                field: 'id',
+                                title: '材料ID',
+                                visible: false
+                            },{
+                                field: 'mater_code',
+                                title: '材料编号'
+                            },{
+                                field: 'mater_name',
+                                title: '材料名称'
+                            },{
+                                field: 'mater_model',
+                                title: '材料规格'
+                            },{
+                                field: 'receipt_price',
+                                title: '进货价格'
+                            },{
+                                field: 'receipt_count',
+                                title: '进货数量'
+                            },{
+                                field: 'receipt_date',
+                                title: '进货时间'
+                            },{
+                                field: 'operator',
+                                title: '经手人'
+                            },]
+                        }),
+                        $('.form_date').datetimepicker({
+                            weekStart: 1,
+                            todayBtn:  1,
+                            autoclose: 1,
+                            todayHighlight: 1,
+                            startView: 2,
+                            minView: 2,
+                            forceParse: 0
+                        }),
+                        $('#btn_edit').click(function(){
+                            var record = $('#table').bootstrapTable('getSelections');
+                            if(record.length <= 0){
+                                alert("请选中一行")
+                            } else {
+                                var id = record[0].id;
+                                var mater_code = record[0].mater_code;
+                                var mater_name = record[0].mater_name;
+                                var mater_model = record[0].mater_model;
+                                var receipt_price = record[0].receipt_price;
+                                var receipt_count = record[0].receipt_count;
+                                var operator = record[0].operator;
+                                $("#materID").val(id);
+                                $("#code").val(mater_code);
+                                $("#name").val(mater_name);
+                                $("#model").val(mater_model);
+                                $("#price").val(receipt_price);
+                                $("#count").val(receipt_count);
+                                $("#operator").val(operator);
+                                $("#updateMaterial").modal();
+                            }
+                        }),
+                        $('#btn_delete').click(function(){
+                            var record = $("#table").bootstrapTable('getSelections');
+                            if(record.length <= 0){
+                                alert("请选中一行")
+                            } else {
+                                var id = record[0].id;
+                                $("#mater_id").val(id);
+                                $("#delMaterial").modal();
+                            }
+                        })
+                    })
+                </script>
+{% endblock content %}
